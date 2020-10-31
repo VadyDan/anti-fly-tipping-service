@@ -3,20 +3,22 @@ package com.afts.antiflytippingservice.controller;
 import com.afts.antiflytippingservice.dto.DumpsDto;
 import com.afts.antiflytippingservice.exception.ValidationException;
 import com.afts.antiflytippingservice.service.DumpsService;
-import lombok.AllArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
-@Log
 @RestController
-@AllArgsConstructor
 @RequestMapping("/dumps")
 public class DumpsController {
     public final DumpsService dumpsService;
+    private static Logger log = Logger.getLogger(DumpsController.class.getName());
+
+    public DumpsController(DumpsService dumpsService) {
+        this.dumpsService = dumpsService;
+    }
 
     @PostMapping("/save")
     public DumpsDto saveDumps(@RequestBody DumpsDto dumpsDto) throws ValidationException {
