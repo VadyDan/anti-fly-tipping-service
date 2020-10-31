@@ -1,12 +1,116 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>AFTS</title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
 </head>
 <body>
-    <div>
-        <h1>Welcome to the Anti Fly-tipping Service!!!</h1>
-    </div>
+
+<h2>HTML Table Anti Fly-tipping</h2>
+
+<table id="dumpsList">
+
+</table>
+
+<form action="#">
+    <input id="dump_longitude" placeholder="Dump longitude">
+    <input id="dump_latitude" placeholder="Dump latitude">
+    <input id="dump_date" placeholder="Dump date">
+    <button onclick="createDump()">Create dump</button>
+</form>
+
+<input id="search_field">
+<button onclick="searchByDate()">Search by Date</button>
+<script>
+    function searchByDate() {
+        var date = document.getElementById("search_field").value;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var dump = JSON.parse(this.responseText);
+                var html = '<tr>\n' +
+                    '        <th>Dump id</th>\n' +
+                    '        <th>Dump longitude</th>\n' +
+                    '        <th>Dump latitude</th>\n' +
+                    '        <th>Dump date</th>\n' +
+                    '        <th>Delete</th>\n' +
+                    '    </tr>';
+                html = html + '<tr><td>' + dump.id + '</td>\n' +
+                    '        <td>' + dump.longitude + '</td>\n' +
+                    '        <td>' + dump.latitude + '</td>\n' +
+                    '        <td>' + dump.date + '</td>' +
+                    '        <td><button onclick="deleteDump(' + dump.id + ')">Delete</button></td></tr>';
+                document.getElementById("dumpsList").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "http://localhost:8080/users/findByDate?date=" + date, true);
+        xhttp.send();
+    }
+
+    function deleteDump(dumpId) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("DELETE", "http://localhost:8080/dumps/delete/" + dumpId, true);
+        xhttp.send();
+    }
+
+    function createDump() {
+        var dumpLongitude = document.getElementById("dump_longitude").value;
+        var dumpLatitude = document.getElementById("dump_latitude").value;
+        var dumpDate = document.getElementById("dump_date").value;
+
+        var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
+        xmlhttp.open("POST", "http://localhost:8080/dumps/save");
+        xmlhttp.setRequestHeader("Content-Type", "application/json");
+        xmlhttp.send(JSON.stringify({name: dumpLongitude, login: dumpLatitude, email: dumpDate}));
+
+        loadDumps();
+    }
+
+    function loadDumps() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var dumps = JSON.parse(this.responseText);
+                var html = '<tr>\n' +
+                    '        <th>Dump id</th>\n' +
+                    '        <th>Dump longitude</th>\n' +
+                    '        <th>Dump latitude</th>\n' +
+                    '        <th>Dump date</th>\n' +
+                    '        <th>Delete</th>\n' +
+                    '    </tr>';
+                for (var i = 0; i < dumps.length; i++) {
+                    var dump = dumps[i];
+                    console.log(dump);
+                    html = html + '<tr><td>' + dump.id + '</td>\n' +
+                        '        <td>' + dump.longitude + '</td>\n' +
+                        '        <td>' + dump.latitude + '</td>\n' +
+                        '        <td>' + dump.date + '</td>' +
+                        '        <td><button onclick="deleteDump(' + dump.id + ')">Delete</button></td></tr>';
+
+                }
+                document.getElementById("dumpsList").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "http://localhost:8080/dumps/findAll", true);
+        xhttp.send();
+    }
+
+    loadDumps();
+</script>
 </body>
 </html>
