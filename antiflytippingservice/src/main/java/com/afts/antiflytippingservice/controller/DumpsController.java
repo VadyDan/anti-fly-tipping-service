@@ -6,6 +6,8 @@ import com.afts.antiflytippingservice.service.DumpsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -33,9 +35,12 @@ public class DumpsController {
     }
 
     @GetMapping("/findDumpByDate")
-    public DumpsDto findDumpByDate(@RequestParam Date date) {
-        log.info("Handling find by date request: " + date);
-        return dumpsService.findDumpByDate(date);
+    public DumpsDto findDumpByDate(@RequestParam String date) throws ParseException {
+        //Используется старая технология перевода времени, можно будет поменять
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("yyyy-MM-dd");
+        Date date1 = formatForDateNow.parse(date);
+        log.info("Handling find by date request: " + formatForDateNow.format(date1));
+        return dumpsService.findDumpByDate(date1);
     }
 
     @DeleteMapping("/delete/{id}")

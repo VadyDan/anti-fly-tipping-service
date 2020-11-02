@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "dumps_table")
+@Table(name = "dumps_table_test") //Пока заменил название БД
 public class Dumps {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

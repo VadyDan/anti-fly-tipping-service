@@ -30,11 +30,11 @@
 <form action="#">
     <input id="dump_longitude" placeholder="Dump longitude">
     <input id="dump_latitude" placeholder="Dump latitude">
-    <input id="dump_date" placeholder="Dump date">
+    <input id="dump_date" placeholder="Dump date" type="date">
     <button onclick="createDump()">Create dump</button>
 </form>
 
-<input id="search_field">
+<input id="search_field" type="date">
 <button onclick="searchByDate()">Search by Date</button>
 <script>
     function searchByDate() {
@@ -58,7 +58,7 @@
                 document.getElementById("dumpsList").innerHTML = html;
             }
         };
-        xhttp.open("GET", "http://localhost:8080/users/findByDate?date=" + date, true);
+        xhttp.open("GET", "http://localhost:8080/dumps/findDumpByDate?date=" + date, true);
         xhttp.send();
     }
 
@@ -66,6 +66,7 @@
         var xhttp = new XMLHttpRequest();
         xhttp.open("DELETE", "http://localhost:8080/dumps/delete/" + dumpId, true);
         xhttp.send();
+        loadDumps();
     }
 
     function createDump() {
@@ -76,7 +77,12 @@
         var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
         xmlhttp.open("POST", "http://localhost:8080/dumps/save");
         xmlhttp.setRequestHeader("Content-Type", "application/json");
-        xmlhttp.send(JSON.stringify({name: dumpLongitude, login: dumpLatitude, email: dumpDate}));
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                alert(xmlhttp.responseText);
+            }
+        }
+        xmlhttp.send(JSON.stringify({longitude: dumpLongitude, latitude: dumpLatitude, date: dumpDate}));
 
         loadDumps();
     }
