@@ -17,9 +17,15 @@
         tr:nth-child(even) {
             background-color: #dddddd;
         }
+
+        .map{
+            height: 600px;
+            width: auto;
+        }
     </style>
 </head>
 <body>
+<div id="map" class="map" ></div>
 
 <h2>HTML Table Anti Fly-tipping</h2>
 
@@ -37,9 +43,11 @@
 <input id="search_field" type="date">
 <button onclick="searchByDate()">Search by Date</button>
 <script>
+    window.points = [];
+
     function searchByDate() {
-        var date = document.getElementById("search_field").value;
-        var xhttp = new XMLHttpRequest();
+        const date = document.getElementById("search_field").value;
+        const xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
                 var dumps = JSON.parse(this.responseText);
@@ -51,7 +59,7 @@
     }
 
     function deleteDump(dumpId) {
-        var xhttp = new XMLHttpRequest();
+        const xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
                 loadDumps();
@@ -62,11 +70,11 @@
     }
 
     function createDump() {
-        var dumpLongitude = document.getElementById("dump_longitude").value;
-        var dumpLatitude = document.getElementById("dump_latitude").value;
-        var dumpDate = document.getElementById("dump_date").value;
+        const dumpLongitude = document.getElementById("dump_longitude").value;
+        const dumpLatitude = document.getElementById("dump_latitude").value;
+        const dumpDate = document.getElementById("dump_date").value;
 
-        var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
+        const xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
         xmlhttp.open("POST", "http://localhost:8080/dumps/save", true);
         xmlhttp.setRequestHeader("Content-Type", "application/json");
         xmlhttp.onreadystatechange = function () {
@@ -74,9 +82,7 @@
                 loadDumps();
             }
         };
-        $.getJSON({longitude: dumpLongitude, latitude: dumpLatitude, date: dumpDate});
         xmlhttp.send(JSON.stringify({longitude: dumpLongitude, latitude: dumpLatitude, date: dumpDate}));
-
     }
 
     function loadDumps() {
@@ -92,26 +98,30 @@
     }
 
     function fillTable(dumps) {
-        var html = '<tr>\n' +
+        let html = '<tr>\n' +
             '        <th>Dump id</th>\n' +
             '        <th>Dump longitude</th>\n' +
             '        <th>Dump latitude</th>\n' +
             '        <th>Dump date</th>\n' +
             '        <th>Delete</th>\n' +
             '    </tr>';
-        for (var i = 0; i < dumps.length; i++) {
-            var dump = dumps[i];
+        for (let i = 0; i < dumps.length; i++) {
+            const dump = dumps[i];
             console.log(dump);
             html = html + '<tr><td>' + dump.id + '</td>\n' +
                 '        <td>' + dump.longitude + '</td>\n' +
                 '        <td>' + dump.latitude + '</td>\n' +
                 '        <td>' + dump.date + '</td>' +
                 '        <td><button onclick="deleteDump(' + dump.id + ')">Delete</button></td></tr>';
+            window.points.push([dump.latitude, dump.longitude]);
         }
         document.getElementById("dumpsList").innerHTML = html;
     }
 
     loadDumps();
 </script>
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript">
+</script>
+<script src="main.js" type="text/javascript"></script>
 </body>
 </html>
