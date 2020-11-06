@@ -1,14 +1,14 @@
 package com.afts.antiflytippingservice.service;
 
-import com.afts.antiflytippingservice.dto.DumpsDto;
-import com.afts.antiflytippingservice.exception.ValidationException;
+import com.afts.antiflytippingservice.dto.DumpDto;
+import com.afts.antiflytippingservice.exception.WrongDateException;
 
 import java.util.Date;
 import java.util.List;
 
 public interface DumpsService {
-    DumpsDto saveDump(DumpsDto dumpsDto) throws ValidationException;
+    DumpDto saveDump(DumpDto dumpDto) throws WrongDateException;
     void deleteDump(Integer dumpId);
-    DumpsDto findDumpByDate(Date date);
-    List<DumpsDto> findAll();
+    List<DumpDto> findDumpsByDate(Date date);
+    List<DumpDto> findAll();
 }

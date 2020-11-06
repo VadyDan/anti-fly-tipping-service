@@ -1,8 +1,9 @@
 package com.afts.antiflytippingservice.service;
 
-import com.afts.antiflytippingservice.dto.DumpsDto;
-import com.afts.antiflytippingservice.entity.Dumps;
-import com.afts.antiflytippingservice.exception.ValidationException;
+import com.afts.antiflytippingservice.dto.DumpDto;
+import com.afts.antiflytippingservice.entity.Dump;
+import com.afts.antiflytippingservice.exception.NullDumpException;
+import com.afts.antiflytippingservice.exception.WrongDateException;
 import com.afts.antiflytippingservice.repository.DumpsRepository;
 import org.springframework.stereotype.Service;
 
@@ -22,22 +23,22 @@ public class DefaultDumpsService implements DumpsService{
         this.dumpsConverter = dumpsConverter;
     }
 
-    private void validateDumpDto(DumpsDto dumpsDto) throws ValidationException {
-        if (isNull(dumpsDto)) {
-            throw new ValidationException("Object dump is null!");
+    private void validateDumpDto(DumpDto dumpDto) {
+        if (isNull(dumpDto)) {
+            throw new NullDumpException();
         }
-        if (isNull(dumpsDto.getDate()) || dumpsDto.getDate().toString().isEmpty()) {
-            throw new ValidationException("Date is empty!");
+        if (isNull(dumpDto.getDate()) || dumpDto.getDate().toString().isEmpty()) {
+            throw new WrongDateException();
         }
-        if (dumpsDto.getDate().after(java.util.Calendar.getInstance().getTime())) {
-            throw new ValidationException("Date is wrong!");
+        if (dumpDto.getDate().after(java.util.Calendar.getInstance().getTime())) {
+            throw new WrongDateException();
         }
     }
 
     @Override
-    public DumpsDto saveDump(DumpsDto dumpsDto) throws ValidationException {
-        validateDumpDto(dumpsDto);
-        Dumps savedDump = dumpsRepository.save(dumpsConverter.fromDumpDtoToDump(dumpsDto));
+    public DumpDto saveDump(DumpDto dumpDto) {
+        validateDumpDto(dumpDto);
+        Dump savedDump = dumpsRepository.save(dumpsConverter.fromDumpDtoToDump(dumpDto));
         return dumpsConverter.fromDumpToDumpDto(savedDump);
     }
 
@@ -47,16 +48,15 @@ public class DefaultDumpsService implements DumpsService{
     }
 
     @Override
-    public DumpsDto findDumpByDate(Date date) {
-        Dumps dumps = dumpsRepository.findDumpByDate(date);
-        if (dumps != null) {
-            return dumpsConverter.fromDumpToDumpDto(dumps);
-        }
-        return null;
+    public List<DumpDto> findDumpsByDate(Date date) {
+        return dumpsRepository.findByDateBetween(date, new Date())
+                .stream()
+                .map(dumpsConverter::fromDumpToDumpDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<DumpsDto> findAll() {
+    public List<DumpDto> findAll() {
         return dumpsRepository.findAll()
                 .stream()
                 .map(dumpsConverter::fromDumpToDumpDto)

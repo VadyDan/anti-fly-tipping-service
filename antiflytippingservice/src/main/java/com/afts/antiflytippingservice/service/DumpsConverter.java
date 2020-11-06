@@ -1,26 +1,26 @@
 package com.afts.antiflytippingservice.service;
 
-import com.afts.antiflytippingservice.dto.DumpsDto;
-import com.afts.antiflytippingservice.entity.Dumps;
+import com.afts.antiflytippingservice.dto.DumpDto;
+import com.afts.antiflytippingservice.entity.Dump;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DumpsConverter {
-    public Dumps fromDumpDtoToDump(DumpsDto dumpsDto) {
-        Dumps dumps = new Dumps();
-        dumps.setId(dumpsDto.getId());
-        dumps.setDate(dumpsDto.getDate());
-        dumps.setLongitude(dumpsDto.getLongitude());
-        dumps.setLatitude(dumpsDto.getLatitude());
-        return dumps;
+    public Dump fromDumpDtoToDump(DumpDto dumpDto) {
+        Dump dump = new Dump();
+        dump.setId(dumpDto.getId());
+        dump.setDate(dumpDto.getDate());
+        dump.setLongitude(dumpDto.getLongitude());
+        dump.setLatitude(dumpDto.getLatitude());
+        return dump;
     }
 
-    public DumpsDto fromDumpToDumpDto(Dumps dumps) {
-        DumpsDto dumpsDto = new DumpsDto();
-        dumpsDto.setId(dumps.getId());
-        dumpsDto.setDate(dumps.getDate());
-        dumpsDto.setLongitude(dumps.getLongitude());
-        dumpsDto.setLatitude(dumps.getLatitude());
-        return dumpsDto;
+    public DumpDto fromDumpToDumpDto(Dump dump) {
+        DumpDto dumpDto = new DumpDto();
+        dumpDto.setId(dump.getId());
+        dumpDto.setDate(dump.getDate());
+        dumpDto.setLongitude(dump.getLongitude());
+        dumpDto.setLatitude(dump.getLatitude());
+        return dumpDto;
     }
 }

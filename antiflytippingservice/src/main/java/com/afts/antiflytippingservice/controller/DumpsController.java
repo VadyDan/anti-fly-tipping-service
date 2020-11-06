@@ -1,7 +1,6 @@
 package com.afts.antiflytippingservice.controller;
 
-import com.afts.antiflytippingservice.dto.DumpsDto;
-import com.afts.antiflytippingservice.exception.ValidationException;
+import com.afts.antiflytippingservice.dto.DumpDto;
 import com.afts.antiflytippingservice.service.DumpsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,24 +22,24 @@ public class DumpsController {
     }
 
     @PostMapping("/save")
-    public DumpsDto saveDumps(@RequestBody DumpsDto dumpsDto) throws ValidationException {
-        log.info("Handling save dumps: " + dumpsDto);
-        return dumpsService.saveDump(dumpsDto);
+    public DumpDto saveDumps(@RequestBody DumpDto dumpDto) {
+        log.info("Handling save dumps: " + dumpDto);
+        return dumpsService.saveDump(dumpDto);
     }
 
     @GetMapping("/findAll")
-    public List<DumpsDto> findAllDumps() {
+    public List<DumpDto> findAllDumps() {
         log.info("Handling find all dumps request");
         return dumpsService.findAll();
     }
 
     @GetMapping("/findDumpByDate")
-    public DumpsDto findDumpByDate(@RequestParam String date) throws ParseException {
+    public List<DumpDto> findDumpByDate(@RequestParam String date) throws ParseException {
         //Используется старая технология перевода времени, можно будет поменять
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("yyyy-MM-dd");
         Date date1 = formatForDateNow.parse(date);
         log.info("Handling find by date request: " + formatForDateNow.format(date1));
-        return dumpsService.findDumpByDate(date1);
+        return dumpsService.findDumpsByDate(date1);
     }
 
     @DeleteMapping("/delete/{id}")

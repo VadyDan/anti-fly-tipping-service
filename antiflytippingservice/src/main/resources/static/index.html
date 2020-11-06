@@ -27,7 +27,7 @@
 
 </table>
 
-<form action="#">
+<form>
     <input id="dump_longitude" placeholder="Dump longitude">
     <input id="dump_latitude" placeholder="Dump latitude">
     <input id="dump_date" placeholder="Dump date" type="date">
@@ -41,21 +41,9 @@
         var date = document.getElementById("search_field").value;
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                var dump = JSON.parse(this.responseText);
-                var html = '<tr>\n' +
-                    '        <th>Dump id</th>\n' +
-                    '        <th>Dump longitude</th>\n' +
-                    '        <th>Dump latitude</th>\n' +
-                    '        <th>Dump date</th>\n' +
-                    '        <th>Delete</th>\n' +
-                    '    </tr>';
-                html = html + '<tr><td>' + dump.id + '</td>\n' +
-                    '        <td>' + dump.longitude + '</td>\n' +
-                    '        <td>' + dump.latitude + '</td>\n' +
-                    '        <td>' + dump.date + '</td>' +
-                    '        <td><button onclick="deleteDump(' + dump.id + ')">Delete</button></td></tr>';
-                document.getElementById("dumpsList").innerHTML = html;
+            if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
+                var dumps = JSON.parse(this.responseText);
+                fillTable(dumps);
             }
         };
         xhttp.open("GET", "http://localhost:8080/dumps/findDumpByDate?date=" + date, true);
@@ -64,9 +52,13 @@
 
     function deleteDump(dumpId) {
         var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
+                loadDumps();
+            }
+        };
         xhttp.open("DELETE", "http://localhost:8080/dumps/delete/" + dumpId, true);
         xhttp.send();
-        loadDumps();
     }
 
     function createDump() {
@@ -75,45 +67,48 @@
         var dumpDate = document.getElementById("dump_date").value;
 
         var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
-        xmlhttp.open("POST", "http://localhost:8080/dumps/save");
+        xmlhttp.open("POST", "http://localhost:8080/dumps/save", true);
         xmlhttp.setRequestHeader("Content-Type", "application/json");
         xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                alert(xmlhttp.responseText);
+            if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
+                loadDumps();
             }
-        }
+        };
+        $.getJSON({longitude: dumpLongitude, latitude: dumpLatitude, date: dumpDate});
         xmlhttp.send(JSON.stringify({longitude: dumpLongitude, latitude: dumpLatitude, date: dumpDate}));
 
-        loadDumps();
     }
 
     function loadDumps() {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
+            if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
                 var dumps = JSON.parse(this.responseText);
-                var html = '<tr>\n' +
-                    '        <th>Dump id</th>\n' +
-                    '        <th>Dump longitude</th>\n' +
-                    '        <th>Dump latitude</th>\n' +
-                    '        <th>Dump date</th>\n' +
-                    '        <th>Delete</th>\n' +
-                    '    </tr>';
-                for (var i = 0; i < dumps.length; i++) {
-                    var dump = dumps[i];
-                    console.log(dump);
-                    html = html + '<tr><td>' + dump.id + '</td>\n' +
-                        '        <td>' + dump.longitude + '</td>\n' +
-                        '        <td>' + dump.latitude + '</td>\n' +
-                        '        <td>' + dump.date + '</td>' +
-                        '        <td><button onclick="deleteDump(' + dump.id + ')">Delete</button></td></tr>';
-
-                }
-                document.getElementById("dumpsList").innerHTML = html;
+                fillTable(dumps);
             }
         };
         xhttp.open("GET", "http://localhost:8080/dumps/findAll", true);
         xhttp.send();
+    }
+
+    function fillTable(dumps) {
+        var html = '<tr>\n' +
+            '        <th>Dump id</th>\n' +
+            '        <th>Dump longitude</th>\n' +
+            '        <th>Dump latitude</th>\n' +
+            '        <th>Dump date</th>\n' +
+            '        <th>Delete</th>\n' +
+            '    </tr>';
+        for (var i = 0; i < dumps.length; i++) {
+            var dump = dumps[i];
+            console.log(dump);
+            html = html + '<tr><td>' + dump.id + '</td>\n' +
+                '        <td>' + dump.longitude + '</td>\n' +
+                '        <td>' + dump.latitude + '</td>\n' +
+                '        <td>' + dump.date + '</td>' +
+                '        <td><button onclick="deleteDump(' + dump.id + ')">Delete</button></td></tr>';
+        }
+        document.getElementById("dumpsList").innerHTML = html;
     }
 
     loadDumps();
