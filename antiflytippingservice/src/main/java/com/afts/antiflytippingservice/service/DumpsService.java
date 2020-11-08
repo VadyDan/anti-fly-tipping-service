@@ -9,6 +9,6 @@ import java.util.List;
 public interface DumpsService {
     DumpDto saveDump(DumpDto dumpDto) throws WrongDateException;
     void deleteDump(Integer dumpId);
-    List<DumpDto> findDumpsByDate(Date date);
+    List<DumpDto> findDumpsByDate(Date startDate, Date endDate);
     List<DumpDto> findAll();
 }

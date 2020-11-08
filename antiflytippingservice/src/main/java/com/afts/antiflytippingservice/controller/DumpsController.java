@@ -34,12 +34,13 @@ public class DumpsController {
     }
 
     @GetMapping("/findDumpByDate")
-    public List<DumpDto> findDumpByDate(@RequestParam String date) throws ParseException {
+    public List<DumpDto> findDumpByDate(@RequestParam String startDate, @RequestParam String endDate) throws ParseException {
         //Используется старая технология перевода времени, можно будет поменять
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("yyyy-MM-dd");
-        Date date1 = formatForDateNow.parse(date);
-        log.info("Handling find by date request: " + formatForDateNow.format(date1));
-        return dumpsService.findDumpsByDate(date1);
+        Date date1 = formatForDateNow.parse(startDate);
+        Date date2 = formatForDateNow.parse(endDate);
+        log.info("Handling find by date request: " + formatForDateNow.format(date1) + " - " + formatForDateNow.format(date2));
+        return dumpsService.findDumpsByDate(date1, date2);
     }
 
     @DeleteMapping("/delete/{id}")

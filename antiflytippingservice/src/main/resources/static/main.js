@@ -1,5 +1,5 @@
 var map;
-
+var script;
 function fillMap(dumps) {
     ymaps.ready(init);
 
@@ -51,7 +51,6 @@ function fillMap(dumps) {
             checkZoomRange: true
         });
     }
-
 }
 
 

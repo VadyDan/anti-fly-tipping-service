@@ -43,11 +43,13 @@
     <button onclick="createDump()">Create dump</button>
 </form>
 
-<input id="search_field" type="date">
+<input id="search_field_start" type="date">
+<input id="search_field_end" type="date">
 <button onclick="searchByDate()">Search by Date</button>
 <script>
     function searchByDate() {
-        const date = document.getElementById("search_field").value;
+        const startDate = document.getElementById("search_field_start").value;
+        const endDate = document.getElementById("search_field_end").value;
         const xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
@@ -56,7 +58,7 @@
                 fillMap(dumps);
             }
         };
-        xhttp.open("GET", "http://localhost:8080/dumps/findDumpByDate?date=" + date, true);
+        xhttp.open("GET", "http://localhost:8080/dumps/findDumpByDate?startDate=" + startDate + "&endDate=" + endDate, true);
         xhttp.send();
     }
 

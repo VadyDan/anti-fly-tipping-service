@@ -48,8 +48,8 @@ public class DefaultDumpsService implements DumpsService{
     }
 
     @Override
-    public List<DumpDto> findDumpsByDate(Date date) {
-        return dumpsRepository.findByDateBetween(date, new Date())
+    public List<DumpDto> findDumpsByDate(Date startDate, Date endDate) {
+        return dumpsRepository.findByDateBetween(startDate, endDate)
                 .stream()
                 .map(dumpsConverter::fromDumpToDumpDto)
                 .collect(Collectors.toList());
