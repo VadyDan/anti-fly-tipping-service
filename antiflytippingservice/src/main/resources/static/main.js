@@ -10,7 +10,7 @@ function fillMap(dumps) {
         map = new ymaps.Map('map', {
             center: [58.0119320871105,56.22310774677379],
             zoom: 15,
-            controls: ['zoomControl'],
+            controls: ['zoomControl', 'typeSelector', 'fullscreenControl'],
             behaviors: ['drag']
         });
         let clusterer = new ymaps.Clusterer({
