@@ -9,5 +9,4 @@ public class AntiflytippingserviceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AntiflytippingserviceApplication.class, args);
 	}
-
 }

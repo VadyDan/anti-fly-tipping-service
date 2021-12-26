@@ -4,20 +4,33 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "dumps_table_test") //Пока заменил название БД
+@Table(name = "DUMPS_TABLE_TEST") //Пока заменил название БД
 public class Dump {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "genid", sequenceName = "DUMP_SEQ")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "genid")
+    @Column(name = "DUMP_ID", unique = true, nullable = false)
     private Integer id;
 
-    @Column
+    @Column(name = "DUMP_LONGITUDE", nullable = false)
     private Double longitude;
 
-    @Column
+    @Column(name = "DUMP_LATITUDE", nullable = false)
     private Double latitude;
 
-    @Column
+    @Column(name = "DUMP_DATE", nullable = false)
     private Date date;
+
+    @Column(name = "DUMP_CONFIDENCE", nullable = false)
+    private Double confidence;
+
+    public Double getConfidence() {
+        return confidence;
+    }
+
+    public void setConfidence(Double confidence) {
+        this.confidence = confidence;
+    }
 
     public Integer getId() {
         return id;

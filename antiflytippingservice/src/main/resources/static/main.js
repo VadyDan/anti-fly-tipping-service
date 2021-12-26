@@ -20,22 +20,31 @@ function fillMap(dumps) {
             clusterHideIconOnBalloonOpen: false,
             geoObjectHideIconOnBalloonOpen: false
         });
-        getPointData = function (index) {
+        let getPointData = function (index) {
             return {
                 balloonContentHeader: '<font size=3><b>Dump information</b></font>',
-                balloonContentBody: '<p>'+dumps[index].latitude+'</p>',
+                balloonContentBody: '<img src="img/dump_example.png" height="140" width="140">' +
+                    '<img src="img/dump_segmentation.png" height="140" width="140"> <br/> ' +
+                    '<b>Area: </b> 118 m<sup><small>2</small></sup> <br/>' +
+                    '<b>Detection date: </b> 12.09.2019 <br/>' +
+                    '<b>Date of last measurement: </b> 12.10.2020 <br/>' +
+                    '<b>Address: </b> Russia, Perm krai, Perm<br/>' +
+                    '<b>Coordinates:</b> <br/> Latitude: ' + dumps[index].latitude +
+                    '<br/> Longitude: ' + dumps[index].longitude + ' <br/>' +
+                    '<p style="text-align: center"><button>Show all information</button>',
                 clusterCaption: 'Dump number <strong>' + index + '</strong>'
             };
         };
-        getPointOptions = function () {
+        let getPointOptions = function () {
             return {
                 preset: 'islands#violetIcon'
             };
         };
 
-        geoObjects = [];
+        let geoObjects = [];
 
-        for(var i = 0, len = dumps.length; i < len; i++) {
+        let i = 0, len = dumps.length;
+        for(; i < len; i++) {
             geoObjects[i] = new ymaps.Placemark([dumps[i].latitude, dumps[i].longitude], getPointData(i), getPointOptions());
         }
 

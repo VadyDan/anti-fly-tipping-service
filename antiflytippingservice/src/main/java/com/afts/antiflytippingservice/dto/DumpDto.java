@@ -7,6 +7,15 @@ public class DumpDto {
     private Double longitude;
     private Double latitude;
     private Date date;
+    private Double confidence;
+
+    public Double getConfidence() {
+        return confidence;
+    }
+
+    public void setConfidence(Double confidence) {
+        this.confidence = confidence;
+    }
 
     public Integer getId() {
         return id;

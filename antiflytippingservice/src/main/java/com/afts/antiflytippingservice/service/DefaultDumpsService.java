@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import static java.util.Objects.isNull;
 
 @Service
-public class DefaultDumpsService implements DumpsService{
+public class DefaultDumpsService implements DumpsService {
     private final DumpsRepository dumpsRepository;
     private final DumpsConverter dumpsConverter;
 
