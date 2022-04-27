@@ -8,6 +8,7 @@ public class DumpDto {
     private Double latitude;
     private Date date;
     private Double confidence;
+    private byte[] image;
 
     public Double getConfidence() {
         return confidence;
@@ -47,5 +48,13 @@ public class DumpDto {
 
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }

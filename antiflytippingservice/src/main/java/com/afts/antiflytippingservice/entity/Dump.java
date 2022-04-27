@@ -4,11 +4,11 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "DUMPS_TABLE_TEST") //Пока заменил название БД
+@Table(name = "DUMPS_TABLE")
 public class Dump {
     @Id
-    @SequenceGenerator(name = "genid", sequenceName = "DUMP_SEQ")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "genid")
+    @SequenceGenerator(name = "DUMP_ID_SEQ", sequenceName = "DUMP_ID_SEQ")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DUMP_ID_SEQ")
     @Column(name = "DUMP_ID", unique = true, nullable = false)
     private Integer id;
 
@@ -23,6 +23,9 @@ public class Dump {
 
     @Column(name = "DUMP_CONFIDENCE", nullable = false)
     private Double confidence;
+
+    @Column(name = "DUMP_IMAGE", nullable = true)
+    private byte[] image;
 
     public Double getConfidence() {
         return confidence;
@@ -62,5 +65,13 @@ public class Dump {
 
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }

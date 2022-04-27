@@ -13,6 +13,7 @@ public class DumpsConverter {
         dump.setLongitude(dumpDto.getLongitude());
         dump.setLatitude(dumpDto.getLatitude());
         dump.setConfidence(dumpDto.getConfidence());
+        dump.setImage(dumpDto.getImage());
         return dump;
     }
 
@@ -23,6 +24,7 @@ public class DumpsConverter {
         dumpDto.setLongitude(dump.getLongitude());
         dumpDto.setLatitude(dump.getLatitude());
         dumpDto.setConfidence(dump.getConfidence());
+        dumpDto.setImage(dump.getImage());
         return dumpDto;
     }
 }
