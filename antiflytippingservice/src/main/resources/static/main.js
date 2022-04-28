@@ -33,8 +33,8 @@ function fillMap(dumps) {
                 balloonContentBody:
                     '<img src="' + image + '" height="140" width="140" alt="Свалка"> <br/> ' +
                     '<b>Area: </b> ? m<sup><small>2</small></sup> <br/>' +
-                    '<b>Detection date: </b>' + dumps[index].date + '<br/>' +
-                    '<b>Date of last measurement: </b>' + dumps[index].date + '<br/>' +
+                    '<b>Detection date: </b>' + formatDate(new Date(Date.parse(dumps[index].date))) + '<br/>' +
+                    '<b>Date of last measurement: </b>' + formatDate(new Date(Date.parse(dumps[index].date))) + '<br/>' +
                     '<b>Address: </b> Russia, Perm krai, Perm<br/>' +
                     '<b>Coordinates:</b> <br/> Latitude: ' + dumps[index].latitude +
                     '<br/> Longitude: ' + dumps[index].longitude + ' <br/>' +
@@ -67,6 +67,18 @@ function fillMap(dumps) {
             checkZoomRange: true
         });
     }
+}
+
+function padTo2Digits(num) {
+    return num.toString().padStart(2, '0');
+}
+
+function formatDate(date) {
+    return [
+        padTo2Digits(date.getDate()),
+        padTo2Digits(date.getMonth() + 1),
+        date.getFullYear(),
+    ].join('.');
 }
 
 
