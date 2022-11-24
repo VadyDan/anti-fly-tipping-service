@@ -73,6 +73,17 @@
         xhttp.send();
     }
 
+    function setDumpCorrectFalse(dumpId) {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
+                loadDumps();
+            }
+        };
+        xhttp.open("POST", "http://localhost:8080/dumps/setDumpCorrectFalse/" + dumpId, true);
+        xhttp.send();
+    }
+
     function createDump() {
         const dumpLongitude = document.getElementById("dump_longitude").value;
         const dumpLatitude = document.getElementById("dump_latitude").value;
@@ -108,6 +119,7 @@
             '        <th>Dump longitude</th>\n' +
             '        <th>Dump latitude</th>\n' +
             '        <th>Dump date</th>\n' +
+            '        <th>Confidence</th>\n' +
             '        <th>Delete</th>\n' +
             '    </tr>';
         for (let i = 0; i < dumps.length; i++) {
@@ -117,6 +129,7 @@
                 '        <td>' + dump.longitude + '</td>\n' +
                 '        <td>' + dump.latitude + '</td>\n' +
                 '        <td>' + dump.date + '</td>' +
+                '        <td>' + dump.confidence + '</td>' +
                 '        <td><button onclick="deleteDump(' + dump.id + ')">Delete</button></td></tr>';
         }
         document.getElementById("dumpsList").innerHTML = html;

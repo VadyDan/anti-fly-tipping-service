@@ -49,4 +49,11 @@ public class DumpsController {
         dumpsService.deleteDump(id);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/setDumpCorrectFalse/{id}")
+    public ResponseEntity<Void> setDumpCorrectFalse(@PathVariable Integer id) {
+        log.info("Set Dump Correct = False: id = " + id);
+        dumpsService.setDumpCorrectFalse(id);
+        return ResponseEntity.ok().build();
+    }
 }

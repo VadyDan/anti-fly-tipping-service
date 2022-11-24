@@ -33,12 +33,14 @@ function fillMap(dumps) {
                 balloonContentBody:
                     '<img src="' + image + '" height="140" width="140" alt="Свалка"> <br/> ' +
                     '<b>Area: </b> ? m<sup><small>2</small></sup> <br/>' +
+                    '<b>ID = ' + dumps[index].id + '<br/>' +
                     '<b>Detection date: </b>' + formatDate(new Date(Date.parse(dumps[index].date))) + '<br/>' +
                     '<b>Date of last measurement: </b>' + formatDate(new Date(Date.parse(dumps[index].date))) + '<br/>' +
+                    '<b/>Confidence: </b>' + dumps[index].confidence.toFixed(3) + ' <br/>' +
                     '<b>Address: </b> Russia, Perm krai, Perm<br/>' +
-                    '<b>Coordinates:</b> <br/> Latitude: ' + dumps[index].latitude +
-                    '<br/> Longitude: ' + dumps[index].longitude + ' <br/>' +
-                    '<p style="text-align: center"><button>Show all information</button>',
+                    '<b>Coordinates:</b> Latitude: </b>' + dumps[index].latitude +
+                    '<br/> Longitude: </b>' + dumps[index].longitude + ' <br/>' +
+                    '<p style="text-align: center"><button onclick="setDumpCorrectFalse(' + dumps[index].id + ')">This is not a dump!</button>',
                 clusterCaption: 'Dump number <strong>' + index + '</strong>'
             };
         };

@@ -24,7 +24,10 @@ public class Dump {
     @Column(name = "DUMP_CONFIDENCE", nullable = false)
     private Double confidence;
 
-    @Column(name = "DUMP_IMAGE", nullable = true)
+    @Column(name = "DUMP_CORRECT", nullable = false)
+    private boolean correct;
+
+    @Column(name = "DUMP_IMAGE")
     private byte[] image;
 
     public Double getConfidence() {
@@ -73,5 +76,13 @@ public class Dump {
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    public boolean getCorrect() {
+        return correct;
+    }
+
+    public void setCorrect(boolean correct) {
+        this.correct = correct;
     }
 }

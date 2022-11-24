@@ -11,4 +11,5 @@ public interface DumpsService {
     void deleteDump(Integer dumpId);
     List<DumpDto> findDumpsByDate(Date startDate, Date endDate);
     List<DumpDto> findAll();
+    void setDumpCorrectFalse(Integer dumpId);
 }

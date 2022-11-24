@@ -57,9 +57,14 @@ public class DefaultDumpsService implements DumpsService {
 
     @Override
     public List<DumpDto> findAll() {
-        return dumpsRepository.findAll()
+        return dumpsRepository.findByCorrectTrue()
                 .stream()
                 .map(dumpsConverter::fromDumpToDumpDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void setDumpCorrectFalse(Integer dumpId) {
+        dumpsRepository.setDumpCorrectFalse(dumpId);
     }
 }
