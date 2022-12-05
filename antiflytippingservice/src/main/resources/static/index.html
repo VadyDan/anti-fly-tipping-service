@@ -30,23 +30,25 @@
 <body>
 <div id="map" class="map" ></div>
 
-<h2>HTML Table Anti Fly-tipping</h2>
+<!--<h2>HTML Table Anti Fly-tipping</h2>-->
 
-<table id="dumpsList">
+<!--<table id="dumpsList">-->
 
-</table>
+<!--</table>-->
 
-<form>
-    <input id="dump_longitude" placeholder="Dump longitude">
-    <input id="dump_latitude" placeholder="Dump latitude">
-    <input id="dump_date" placeholder="Dump date" type="date">
-    <button onclick="createDump()">Create dump</button>
-</form>
+<!--<form>-->
+<!--    <input id="dump_longitude" placeholder="Dump longitude">-->
+<!--    <input id="dump_latitude" placeholder="Dump latitude">-->
+<!--    <input id="dump_date" placeholder="Dump date" type="date">-->
+<!--    <button onclick="createDump()">Create dump</button>-->
+<!--</form>-->
 
-<input id="search_field_start" type="date">
-<input id="search_field_end" type="date">
-<button onclick="searchByDate()">Search by Date</button>
+<!--<input id="search_field_start" type="date">-->
+<!--<input id="search_field_end" type="date">-->
+<!--<button onclick="searchByDate()">Search by Date</button>-->
+
 <script>
+    var host = "localhost:8080"
     function searchByDate() {
         const startDate = document.getElementById("search_field_start").value;
         const endDate = document.getElementById("search_field_end").value;
@@ -58,7 +60,8 @@
                 fillMap(dumps);
             }
         };
-        xhttp.open("GET", "http://localhost:8080/dumps/findDumpByDate?startDate=" + startDate + "&endDate=" + endDate, true);
+
+        xhttp.open("GET", "http://" + host + "/dumps/findDumpByDate?startDate=" + startDate + "&endDate=" + endDate, true);
         xhttp.send();
     }
 
@@ -69,18 +72,18 @@
                 loadDumps();
             }
         };
-        xhttp.open("DELETE", "http://localhost:8080/dumps/delete/" + dumpId, true);
-        xhttp.send();
+        // xhttp.open("DELETE", "http://" + host + "/dumps/delete/" + dumpId, true);
+        // xhttp.send();
     }
 
     function setDumpCorrectFalse(dumpId) {
         const xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
-                loadDumps();
+                // loadDumps();
             }
         };
-        xhttp.open("POST", "http://localhost:8080/dumps/setDumpCorrectFalse/" + dumpId, true);
+        xhttp.open("POST", "http://" + host + "/dumps/setDumpCorrectFalse/" + dumpId, true);
         xhttp.send();
     }
 
@@ -90,7 +93,7 @@
         const dumpDate = document.getElementById("dump_date").value;
 
         const xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
-        xmlhttp.open("POST", "http://localhost:8080/dumps/save", false);
+        xmlhttp.open("POST", "http://" + host + "/dumps/save", false);
         xmlhttp.setRequestHeader("Content-Type", "application/json");
         xmlhttp.onreadystatechange = function () {
             if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
@@ -105,11 +108,11 @@
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
                 var dumps = JSON.parse(this.responseText);
-                fillTable(dumps);
+                // fillTable(dumps);
                 fillMap(dumps);
             }
         };
-        xhttp.open("GET", "http://localhost:8080/dumps/findAll", true);
+        xhttp.open("GET", "http://" + host + "/dumps/findAll", true);
         xhttp.send();
     }
 

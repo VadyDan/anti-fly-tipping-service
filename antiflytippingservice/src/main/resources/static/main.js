@@ -13,6 +13,7 @@ function fillMap(dumps) {
         map = new ymaps.Map('map', {
             center: [58.0119320871105,56.22310774677379],
             zoom: 15,
+            type: 'yandex#satellite',
             controls: ['zoomControl', 'typeSelector', 'fullscreenControl'],
             behaviors: ['drag', 'scrollZoom', 'dblClickZoom', 'multiTouch']
         }, {
@@ -31,16 +32,16 @@ function fillMap(dumps) {
             return {
                 balloonContentHeader: '<font size=3><b>Dump information</b></font>',
                 balloonContentBody:
-                    '<img src="' + image + '" height="140" width="140" alt="Свалка"> <br/> ' +
-                    '<b>Area: </b> ? m<sup><small>2</small></sup> <br/>' +
-                    '<b>ID = ' + dumps[index].id + '<br/>' +
+                    // '<img src="' + image + '" height="140" width="140" alt="Свалка"> <br/> ' +
+                    '<b>Area: </b> (soon) m<sup><small>2</small></sup> <br/>' +
+                    '<b>ID = </b>' + dumps[index].id + '<br/>' +
                     '<b>Detection date: </b>' + formatDate(new Date(Date.parse(dumps[index].date))) + '<br/>' +
                     '<b>Date of last measurement: </b>' + formatDate(new Date(Date.parse(dumps[index].date))) + '<br/>' +
                     '<b/>Confidence: </b>' + dumps[index].confidence.toFixed(3) + ' <br/>' +
-                    '<b>Address: </b> Russia, Perm krai, Perm<br/>' +
-                    '<b>Coordinates:</b> Latitude: </b>' + dumps[index].latitude +
-                    '<br/> Longitude: </b>' + dumps[index].longitude + ' <br/>' +
-                    '<p style="text-align: center"><button onclick="setDumpCorrectFalse(' + dumps[index].id + ')">This is not a dump!</button>',
+                    '<b>Address: </b> (soon) <br/>' +
+                    '<b>Coordinates:</br> Latitude: </b>' + dumps[index].latitude + ' <br/>' +
+                    '<b> Longitude: </b>' + dumps[index].longitude + ' <br/>' +
+                    '<p style="text-align: center"><button id="btnSetDumpCorrectFalse" onclick="setDumpCorrectFalse(' + dumps[index].id + '); onClick();">This is not a dump!</button>',
                 clusterCaption: 'Dump number <strong>' + index + '</strong>'
             };
         };
@@ -81,6 +82,12 @@ function formatDate(date) {
         padTo2Digits(date.getMonth() + 1),
         date.getFullYear(),
     ].join('.');
+}
+
+function onClick() {
+    let btn = document.getElementById("btnSetDumpCorrectFalse");
+    btn.style.backgroundColor = 'salmon';
+    btn.style.color = 'white';
 }
 
 
