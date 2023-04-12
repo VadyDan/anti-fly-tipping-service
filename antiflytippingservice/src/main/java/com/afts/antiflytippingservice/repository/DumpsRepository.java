@@ -21,4 +21,8 @@ public interface DumpsRepository extends JpaRepository<Dump, Integer> {
     @Modifying
     @Query("update Dump d set d.correct = false where d.id = :id")
     void setDumpCorrectFalse(@Param("id") Integer id);
+    @Transactional
+    @Modifying
+    @Query("update Dump d set d.checked = true where d.id = :id")
+    void setDumpCheckedTrue(@Param("id") Integer id);
 }

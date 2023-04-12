@@ -56,4 +56,11 @@ public class DumpsController {
         dumpsService.setDumpCorrectFalse(id);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/setDumpCheckedTrue/{id}")
+    public ResponseEntity<Void> setDumpCheckedTrue(@PathVariable Integer id) {
+        log.info("Set Dump Checked = True: id = " + id);
+        dumpsService.setDumpCheckedTrue(id);
+        return ResponseEntity.ok().build();
+    }
 }

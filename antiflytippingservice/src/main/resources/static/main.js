@@ -22,7 +22,7 @@ function fillMap(dumps) {
 
         let clusterer = new ymaps.Clusterer({
             preset: 'islands#invertedVioletClusterIcons',
-            groupByCoordinates: false,
+            groupByCoordinates: true,
             clusterDisableClickZoom: true,
             clusterHideIconOnBalloonOpen: false,
             geoObjectHideIconOnBalloonOpen: false
@@ -32,7 +32,7 @@ function fillMap(dumps) {
             return {
                 balloonContentHeader: '<font size=3><b>Dump information</b></font>',
                 balloonContentBody:
-                    // '<img src="' + image + '" height="140" width="140" alt="Свалка"> <br/> ' +
+                    '<img src="' + image + '" height="140" width="140" alt="Свалка"> <br/> ' +
                     '<b>Area: </b> (soon) m<sup><small>2</small></sup> <br/>' +
                     '<b>ID = </b>' + dumps[index].id + '<br/>' +
                     '<b>Detection date: </b>' + formatDate(new Date(Date.parse(dumps[index].date))) + '<br/>' +
@@ -41,10 +41,13 @@ function fillMap(dumps) {
                     '<b>Address: </b> (soon) <br/>' +
                     '<b>Coordinates:</br> Latitude: </b>' + dumps[index].latitude + ' <br/>' +
                     '<b> Longitude: </b>' + dumps[index].longitude + ' <br/>' +
-                    '<p style="text-align: center"><button id="btnSetDumpCorrectFalse" onclick="setDumpCorrectFalse(' + dumps[index].id + '); onClick();">This is not a dump!</button>',
+                    '<p style="text-align: center"><button id="btnSetDumpCheckedTrue" onclick="setDumpCheckedTrue(' + dumps[index].id + '); onClickChecked();">This is a DUMP!</button>' +
+                    '<p style="text-align: center"><button id="btnSetDumpCorrectFalse" onclick="setDumpCorrectFalse(' + dumps[index].id + '); onClickCorrect();">This is NOT a dump!</button>',
                 clusterCaption: 'Dump number <strong>' + index + '</strong>'
             };
         };
+
+
         let getPointOptions = function () {
             return {
                 preset: 'islands#violetIcon'
@@ -55,7 +58,11 @@ function fillMap(dumps) {
         let i = 0, len = dumps.length;
         for(; i < len; i++) {
             image = "data:image/jpg;base64," + dumps[i].image;
-            geoObjects[i] = new ymaps.Placemark([dumps[i].latitude, dumps[i].longitude], getPointData(i, image), getPointOptions());
+            if (dumps[i].checked == false) {
+                geoObjects[i] = new ymaps.Placemark([dumps[i].latitude, dumps[i].longitude], getPointData(i, image), getPointOptions());
+            } else {
+                geoObjects[i] = new ymaps.Placemark([dumps[i].latitude, dumps[i].longitude], getPointData(i, image));
+            }
         }
 
         clusterer.options.set({
@@ -84,10 +91,16 @@ function formatDate(date) {
     ].join('.');
 }
 
-function onClick() {
+function onClickCorrect() {
     let btn = document.getElementById("btnSetDumpCorrectFalse");
     btn.style.backgroundColor = 'salmon';
     btn.style.color = 'white';
+}
+
+function onClickChecked() {
+    let btn = document.getElementById("btnSetDumpCheckedTrue");
+    btn.style.backgroundColor = 'salmon';
+    btn.style.color = 'green';
 }
 
 

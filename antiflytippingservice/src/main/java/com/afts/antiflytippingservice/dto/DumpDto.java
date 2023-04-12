@@ -9,6 +9,7 @@ public class DumpDto {
     private Date date;
     private Double confidence;
     private boolean correct;
+    private boolean checked;
     private byte[] image;
 
     public Double getConfidence() {
@@ -65,5 +66,13 @@ public class DumpDto {
 
     public void setCorrect(boolean correct) {
         this.correct = correct;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }

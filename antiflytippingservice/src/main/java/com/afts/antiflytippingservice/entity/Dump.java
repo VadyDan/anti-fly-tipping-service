@@ -27,6 +27,9 @@ public class Dump {
     @Column(name = "DUMP_CORRECT", nullable = false)
     private boolean correct;
 
+    @Column(name = "DUMP_CHECKED", nullable = false)
+    private boolean checked;
+
     @Column(name = "DUMP_IMAGE")
     private byte[] image;
 
@@ -84,5 +87,13 @@ public class Dump {
 
     public void setCorrect(boolean correct) {
         this.correct = correct;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }

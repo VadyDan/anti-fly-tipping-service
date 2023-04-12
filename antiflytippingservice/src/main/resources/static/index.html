@@ -87,6 +87,17 @@
         xhttp.send();
     }
 
+    function setDumpCheckedTrue(dumpId) {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
+                // loadDumps();
+            }
+        };
+        xhttp.open("POST", "http://" + host + "/dumps/setDumpCheckedTrue/" + dumpId, true);
+        xhttp.send();
+    }
+
     function createDump() {
         const dumpLongitude = document.getElementById("dump_longitude").value;
         const dumpLatitude = document.getElementById("dump_latitude").value;

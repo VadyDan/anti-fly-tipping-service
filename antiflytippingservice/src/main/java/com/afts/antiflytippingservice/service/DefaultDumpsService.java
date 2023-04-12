@@ -44,7 +44,7 @@ public class DefaultDumpsService implements DumpsService {
 
     @Override
     public void deleteDump(Integer dumpId) {
-//        dumpsRepository.deleteById(dumpId);
+        dumpsRepository.deleteById(dumpId);
     }
 
     @Override
@@ -65,6 +65,11 @@ public class DefaultDumpsService implements DumpsService {
 
     @Override
     public void setDumpCorrectFalse(Integer dumpId) {
-//        dumpsRepository.setDumpCorrectFalse(dumpId);
+        dumpsRepository.setDumpCorrectFalse(dumpId);
+    }
+
+    @Override
+    public void setDumpCheckedTrue(Integer dumpId) {
+        dumpsRepository.setDumpCheckedTrue(dumpId);
     }
 }

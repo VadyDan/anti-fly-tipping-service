@@ -12,4 +12,6 @@ public interface DumpsService {
     List<DumpDto> findDumpsByDate(Date startDate, Date endDate);
     List<DumpDto> findAll();
     void setDumpCorrectFalse(Integer dumpId);
+
+    void setDumpCheckedTrue(Integer dumpId);
 }
